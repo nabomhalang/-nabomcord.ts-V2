@@ -1,3 +1,4 @@
+import { Player } from "discord-player"
 import { Client, Collection, Collector, InteractionCollector } from "discord.js"
 import path from "path"
 import { fileURLToPath } from "url"
@@ -10,6 +11,7 @@ interface DiscordClient extends Client {
     commands: Collection<string, ApplicationCommand>
     messageCommands: Collection<string, MessageCommand>
     buttons: Collection<string, DiscordButton>
+    players: Collection<string, Player>
 }
 
 declare global {

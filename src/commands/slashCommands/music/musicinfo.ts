@@ -2,14 +2,14 @@
 
 import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js"
 import ApplicationCommand from "../../../interfaces/ApplicationCommand.js"
-import musicinfo from "../../../button/musicinfo.js"
+import music from "../../../button/musicinfo.js"
 import path from "path"
 import { fileURLToPath } from "url"
 import { readdirSync, readFileSync } from "fs"
 
 export default new ApplicationCommand({
     data: new SlashCommandBuilder()
-        .setName(musicinfo.name as string)
+        .setName(music.name as string)
         .setDescription("It prints out music commands.")
         .setDMPermission(false),
 
@@ -42,6 +42,6 @@ export default new ApplicationCommand({
             .setAuthor({ name: `Requested by ${interactive.user.tag}`, iconURL: `${interactive.user.displayAvatarURL()}` })
             .setFooter({ text: `Made by 나봄하랑#7597` })
 
-        await interactive.reply({ embeds: [embed], components: [musicinfo.data] })
+        await interactive.reply({ embeds: [embed], components: [music.data] })
     }
 })

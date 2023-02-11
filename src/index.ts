@@ -13,11 +13,13 @@ import type MessageCommand from './interfaces/MessageCommand.js'
 import type Event from './interfaces/Event.js'
 import { fileURLToPath } from 'node:url'
 import DiscordButton from './interfaces/Button.js'
+import { Player } from 'discord-player'
 
 (async () => {
     const __dirname: string = path.dirname(fileURLToPath(import.meta.url))
 
     await deployGlobalCommands()
+
 
     global.client = Object.assign(
         new Client({
@@ -25,7 +27,8 @@ import DiscordButton from './interfaces/Button.js'
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.GuildMessages,
                 GatewayIntentBits.DirectMessages,
-                GatewayIntentBits.MessageContent
+                GatewayIntentBits.MessageContent,
+                GatewayIntentBits.GuildVoiceStates
             ],
             partials: [Partials.Channel],
         }),
@@ -33,8 +36,16 @@ import DiscordButton from './interfaces/Button.js'
             commands: new Collection<string, ApplicationCommand>(),
             messageCommands: new Collection<string, MessageCommand>(),
             buttons: new Collection<string, DiscordButton>(),
+            players: new Collection<string, Player>()
         }
     )
+
+    client.players.set("player", new Player(client, {
+        ytdlOptions: {
+            quality: "highestaudio",
+            highWaterMark: 1 << 25
+        }
+    }))
 
     const SlashCommandsDirs: Dirent[] = readdirSync(path.join(__dirname, "./commands/slashCommands"), { withFileTypes: true }).filter(dir => dir.isDirectory()) as Dirent[]
     for (const Category of SlashCommandsDirs) {
@@ -76,3 +87,4 @@ import DiscordButton from './interfaces/Button.js'
 
     await client.login(process.env.TOKEN as string)
 })()
+
