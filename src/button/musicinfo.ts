@@ -11,12 +11,12 @@ export default new DiscordButton({
     data: new ActionRowBuilder<ButtonBuilder>()
         .addComponents(
             new ButtonBuilder()
-                // .setDisabled(true)
+                .setDisabled(true)
                 .setCustomId('track_previous')
                 .setEmoji("⏮️")
                 .setStyle(ButtonStyle.Secondary),
             new ButtonBuilder()
-                // .setDisabled(true)
+                .setDisabled(true)
                 .setCustomId("arrow_backward")
                 .setEmoji('◀️')
                 .setStyle(ButtonStyle.Secondary),
@@ -41,6 +41,27 @@ export default new DiscordButton({
         const MusicCommandJSON: string[] = readdirSync(path.join(__dirname, "../information/music/")).filter(file => file.endsWith('.json'))
 
         const EditEmbed = (index: number): Embed => {
+            const min: number = 1, max: number = MusicCommandJSON.length;
+
+            if (index + 1 <= min) {
+                this.data.components[0].setDisabled(true)
+                this.data.components[1].setDisabled(true)
+                this.data.components[2].setDisabled(false)
+                this.data.components[3].setDisabled(false)
+            }
+            else if (index + 1 >= max) {
+                this.data.components[0].setDisabled(false)
+                this.data.components[1].setDisabled(false)
+                this.data.components[2].setDisabled(true)
+                this.data.components[3].setDisabled(true)
+            }
+            else {
+                this.data.components[0].setDisabled(false)
+                this.data.components[1].setDisabled(false)
+                this.data.components[2].setDisabled(false)
+                this.data.components[3].setDisabled(false)
+            }
+
             const musicCommands = JSON.parse(readFileSync(path.join(__dirname, `../information/music/${MusicCommandJSON[index]}`), "utf-8"))
 
             var value: string = "";
@@ -61,6 +82,11 @@ export default new DiscordButton({
             const embed = EditEmbed(index)
 
             await interactive.editReply({ embeds: [embed], components: [this.data] })
+
+            this.data.components[0].setDisabled(true)
+            this.data.components[1].setDisabled(true)
+            this.data.components[2].setDisabled(false)
+            this.data.components[3].setDisabled(false)
         }
         if (interactive.customId === "arrow_backward") {
             await interactive.deferUpdate()
@@ -69,6 +95,11 @@ export default new DiscordButton({
             const embed = EditEmbed(index)
 
             await interactive.editReply({ embeds: [embed], components: [this.data] })
+
+            this.data.components[0].setDisabled(true)
+            this.data.components[1].setDisabled(true)
+            this.data.components[2].setDisabled(false)
+            this.data.components[3].setDisabled(false)
         }
         if (interactive.customId === "arrow_forward") {
 
@@ -80,6 +111,10 @@ export default new DiscordButton({
 
             await interactive.editReply({ embeds: [embed], components: [this.data] })
 
+            this.data.components[0].setDisabled(true)
+            this.data.components[1].setDisabled(true)
+            this.data.components[2].setDisabled(false)
+            this.data.components[3].setDisabled(false)
         }
         if (interactive.customId === "track_next") {
             await interactive.deferUpdate()
@@ -89,6 +124,11 @@ export default new DiscordButton({
             const embed = EditEmbed(index)
 
             await interactive.editReply({ embeds: [embed], components: [this.data] })
+
+            this.data.components[0].setDisabled(true)
+            this.data.components[1].setDisabled(true)
+            this.data.components[2].setDisabled(false)
+            this.data.components[3].setDisabled(false)
         }
         if (interactive.customId === "Cancel") {
             await interactive.deferUpdate()
