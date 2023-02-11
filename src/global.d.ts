@@ -3,7 +3,7 @@ import { Client, Collection, Collector, InteractionCollector } from "discord.js"
 import path from "path"
 import { fileURLToPath } from "url"
 import ApplicationCommand from "./interfaces/ApplicationCommand"
-import DiscordButton from "./interfaces/Button"
+import DiscordButton from "./interfaces/DiscordButton"
 import MessageCommand from "./interfaces/MessageCommand"
 
 

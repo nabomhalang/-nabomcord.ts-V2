@@ -1,7 +1,7 @@
 
 
 import { ActionRowBuilder, ButtonStyle, ButtonBuilder } from "discord.js"
-import DiscordButton from "../interfaces/Button.js"
+import DiscordButton from "../interfaces/DiscordButton.js"
 
 export default new DiscordButton({
     name: "invite",

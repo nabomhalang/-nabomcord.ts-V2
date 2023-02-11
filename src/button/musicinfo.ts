@@ -4,7 +4,7 @@ import { ActionRowBuilder, ButtonStyle, ButtonBuilder, BaseInteraction, MessageC
 import { readdirSync, readFileSync } from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
-import DiscordButton from "../interfaces/Button.js"
+import DiscordButton from "../interfaces/DiscordButton.js"
 
 export default new DiscordButton({
     name: "musicinfo",

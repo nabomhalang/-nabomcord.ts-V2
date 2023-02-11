@@ -1,7 +1,6 @@
 
 
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandSubcommandGroupBuilder } from "discord.js"
-import { } from "discord-player"
 import ApplicationCommand from "../../../interfaces/ApplicationCommand.js"
 
 export default new ApplicationCommand({
@@ -28,8 +27,13 @@ export default new ApplicationCommand({
                     new SlashCommandSubcommandBuilder()
                         .setName("search")
                         .setDescription("Searches for sogn based on provided keywords")
-                        .addStringOption((option) => option.setName("searchterms").setDescription("the search keywords").setRequired(true))
-                ),
+                        .addStringOption((option) => option.setName("searchwords").setDescription("the search keywords").setRequired(true))
+                )
+        )
+        .addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("info")
+                .setDescription("It prints out music commands.")
         ),
     hasSubCommands: true
 })

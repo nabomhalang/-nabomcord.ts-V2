@@ -12,7 +12,7 @@ import type ApplicationCommand from './interfaces/ApplicationCommand.js'
 import type MessageCommand from './interfaces/MessageCommand.js'
 import type Event from './interfaces/Event.js'
 import { fileURLToPath } from 'node:url'
-import DiscordButton from './interfaces/Button.js'
+import DiscordButton from './interfaces/DiscordButton.js'
 import { Player } from 'discord-player'
 
 (async () => {

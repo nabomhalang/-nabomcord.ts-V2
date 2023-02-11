@@ -4,7 +4,7 @@ import { BaseInteraction, Events, MessageComponentInteraction } from "discord.js
 import { fileURLToPath } from "url"
 import Event from "../../interfaces/Event.js"
 import path from "path"
-import DiscordButton from "../../interfaces/Button.js"
+import DiscordButton from "../../interfaces/DiscordButton.js"
 
 export default new Event({
     name: Events.InteractionCreate,
@@ -12,11 +12,11 @@ export default new Event({
     async execute(interactive: BaseInteraction) {
         if (!interactive.isButton() || !interactive.inCachedGuild()) return
 
-        if (!client.buttons.has(interactive.message.interaction.commandName)) return
+        if (!client.buttons.has(interactive.message.interaction.commandName.replace(' ', ''))) return
         try {
             const __dirname: string = path.dirname(fileURLToPath(import.meta.url))
 
-            const button: DiscordButton = (await import(path.join(__dirname, `../../button/${interactive.message.interaction.commandName}.js`))).default as DiscordButton
+            const button: DiscordButton = (await import(path.join(__dirname, `../../button/${interactive.message.interaction.commandName.replace(' ', '')}.js`))).default as DiscordButton
 
             if (!button) return
 

@@ -1,18 +1,13 @@
 
 
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js"
-import ApplicationCommand from "../../../interfaces/ApplicationCommand.js"
-import music from "../../../button/musicinfo.js"
-import path from "path"
-import { fileURLToPath } from "url"
-import { readdirSync, readFileSync } from "fs"
+import { ChatInputCommandInteraction, EmbedBuilder } from 'discord.js'
+import { readdirSync, readFileSync } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import SubCommand from '../../../interfaces/SubCommand.js';
+import musicinfo from '../../../button/musicinfo.js';
 
-export default new ApplicationCommand({
-    data: new SlashCommandBuilder()
-        .setName(music.name as string)
-        .setDescription("It prints out music commands.")
-        .setDMPermission(false),
-
+export default new SubCommand({
     async execute(interactive: ChatInputCommandInteraction): Promise<void> {
         if (!interactive.inCachedGuild()) return
         const __dirname: string = path.dirname(fileURLToPath(import.meta.url)).replace("dist", "src")
@@ -42,6 +37,6 @@ export default new ApplicationCommand({
             .setAuthor({ name: `Requested by ${interactive.user.tag}`, iconURL: `${interactive.user.displayAvatarURL()}` })
             .setFooter({ text: `Made by 나봄하랑#7597` })
 
-        await interactive.reply({ embeds: [embed], components: [music.data] })
+        await interactive.reply({ embeds: [embed], components: [musicinfo.data] })
     }
 })
