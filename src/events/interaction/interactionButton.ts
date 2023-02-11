@@ -1,6 +1,6 @@
 
 
-import { BaseInteraction, Events } from "discord.js"
+import { BaseInteraction, Events, MessageComponentInteraction } from "discord.js"
 import { fileURLToPath } from "url"
 import Event from "../../interfaces/Event.js"
 import path from "path"
@@ -13,7 +13,6 @@ export default new Event({
         if (!interactive.isButton() || !interactive.inCachedGuild()) return
 
         if (!client.buttons.has(interactive.message.interaction.commandName)) return
-
         try {
             const __dirname: string = path.dirname(fileURLToPath(import.meta.url))
 
@@ -21,7 +20,7 @@ export default new Event({
 
             if (!button) return
 
-            if (button?.execute) await button.execute(interactive as BaseInteraction)
+            if (button?.execute) await button.execute(interactive as MessageComponentInteraction)
         } catch (err) {
             console.error(err as Error)
 

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc && nodemon --exec node dist/index.js"
+    "build": "rm -rf dist &&tsc && nodemon --exec node dist/index.js"
   },
   "engines": {
     "node": ">=16.9"

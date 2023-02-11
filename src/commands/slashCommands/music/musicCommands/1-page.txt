@@ -1,1 +1,0 @@
-`\`\`\`page 1/2\n01. join - Join the voice channel\n02. leave - Leave the voice channel\n03. info - Displays info about the currently song\`\`\``

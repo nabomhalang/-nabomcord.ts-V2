@@ -1,4 +1,4 @@
-import { Client, Collection } from "discord.js"
+import { Client, Collection, Collector, InteractionCollector } from "discord.js"
 import path from "path"
 import { fileURLToPath } from "url"
 import ApplicationCommand from "./interfaces/ApplicationCommand"

@@ -54,15 +54,11 @@ import DiscordButton from './interfaces/Button.js'
         }
     }
 
-    const buttonDirs: Dirent[] = readdirSync(path.join(__dirname, `./button`), { withFileTypes: true }).filter(dir => dir.isDirectory()) as Dirent[]
-    for (const Category of buttonDirs) {
-        const buttonFiles: string[] = readdirSync(path.join(__dirname, `./button/${Category.name}`)).filter(file => file.endsWith(".js")) as string[]
-        for (const file of buttonFiles) {
-            const button: DiscordButton = (await import(join(__dirname, `./button/${Category.name}/${file}`))).default as DiscordButton
-            client.buttons.set(button.name, button)
-        }
+    const buttonFiles: string[] = readdirSync(path.join(__dirname, `./button/`)).filter(file => file.endsWith(".js")) as string[]
+    for (const file of buttonFiles) {
+        const button: DiscordButton = (await import(join(__dirname, `./button/${file}`))).default as DiscordButton
+        client.buttons.set(button.name, button)
     }
-
 
     const eventDirs: Dirent[] = readdirSync(path.join(__dirname, "./events/"), { withFileTypes: true }).filter(dir => dir.isDirectory()) as Dirent[]
     for (const Category of eventDirs) {
