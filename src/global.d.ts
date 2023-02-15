@@ -12,7 +12,6 @@ interface DiscordClient extends Client {
     commands?: Collection<string, ApplicationCommand>
     messageCommands?: Collection<string, MessageCommand>
     buttons?: Collection<string, DiscordButton>
-    disTube?: DisTube
     player?: Player
 }
 

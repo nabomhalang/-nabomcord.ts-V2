@@ -14,10 +14,6 @@ import { fileURLToPath } from 'node:url'
 import DiscordButton from './interfaces/DiscordButton.js'
 import { Player } from 'discord-player'
 import deployGlobalCommands from './deployGlobalCommands.js'
-import { DisTube, DisTubeVoice } from 'distube'
-import { SpotifyPlugin } from '@distube/spotify'
-import { SoundCloudPlugin } from '@distube/soundcloud'
-import { YtDlpPlugin } from '@distube/yt-dlp'
 import "discord-player/smoothVolume"
 
 (async () => {
@@ -47,20 +43,6 @@ import "discord-player/smoothVolume"
     client.commands = new Collection<string, ApplicationCommand>()
     client.messageCommands = new Collection<string, MessageCommand>()
     client.buttons = new Collection<string, DiscordButton>()
-
-    client.disTube = new DisTube(client, {
-        leaveOnStop: false,
-        emitNewSongOnly: true,
-        emitAddSongWhenCreatingQueue: false,
-        emitAddListWhenCreatingQueue: false,
-        plugins: [
-            new SpotifyPlugin({
-                emitEventsAfterFetching: true
-            }),
-            new SoundCloudPlugin(),
-            new YtDlpPlugin()
-        ]
-    })
 
     client.player = new Player(client, {
         ytdlOptions: {
