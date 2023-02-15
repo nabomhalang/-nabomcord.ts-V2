@@ -23,10 +23,10 @@
 
 ## Slash commands & button
 - commands파일안에 slashCOmmands라는파일에 카테고리 폴더를 만들고 그 안에 Slash Commands를 만들어줍니다.
-- buton은 button폴더안에 카테고리 구분없이 바로 (.js/.ts)파일을 만들어줍니다.
+- buton은 button폴더안에 카테고리 구분없이 바로 (js/ts)파일을 만들어줍니다.
 - 작동방식은 interactionButton.ts에 있듯이 입력했던 명령어에서 뛰여쓰기만 제외한 파일이름을 button폴더에서 import해 옵니다. 그렇기 때문에 만약 `/music info`라고 명령어를 만들었다면 button폴더에 `musicinfo.ts`라고 이름을 붙여줘야됩니다.
 
 ## Slash commands & Sub commands
 - Slash commands에서 Sub commands를 만들땐 ApplicationCommand Class의 hasSubCommands만 true로 설정해주면 됩니다. 이때 execute는 필요하지 않습니다.
-- 폴더 이름과 파일이름에 주의해주셔야합니다. ApplicationCommand Class에서 확인할 수 있듯이 subCommands폴더 안에 Slashcommands의 이름과 같은 폴더가 존재하고 그안에 subcommand같은 경우는 (.ts/.js) 파일은 생성하여 Subcommand class로 작성하면 됩니다. 만약 subcommandGroup까지 있다면 그 그룹 이름의 폴더가 존재해야하고 그 안에 (.ts/.js)파일을 만들어 subcommand를 작성하면 됩니다.
+- 폴더 이름과 파일이름에 주의해주셔야합니다. ApplicationCommand Class에서 확인할 수 있듯이 subCommands폴더 안에 Slashcommands의 이름과 같은 폴더가 존재하고 그안에 subcommand같은 경우는 (.ts/.js) 파일은 생성하여 Subcommand class로 작성하면 됩니다. 만약 subcommandGroup까지 있다면 그 그룹 이름의 폴더가 존재해야하고 그 안에 (ts/js)파일을 만들어 subcommand를 작성하면 됩니다.
   

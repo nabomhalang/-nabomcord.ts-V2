@@ -35,5 +35,16 @@ export default new ApplicationCommand({
                 .setName("info")
                 .setDescription("It prints out music commands.")
         ),
+    // .addSubcommand(
+    //     new SlashCommandSubcommandBuilder()
+    //         .setName("leave")
+    //         .setDescription("Leave the voice channel")
+    // )
+    // .addSubcommand(
+    //     new SlashCommandSubcommandBuilder()
+    //         .setName("join")
+    //         .setDescription("Join the voice channel")
+    // ),
+
     hasSubCommands: true
 })

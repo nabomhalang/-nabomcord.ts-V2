@@ -5,7 +5,6 @@ import 'dotenv/config'
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js'
 import { Dirent, readdirSync } from 'fs'
 import { join } from 'path'
-import deployGlobalCommands from './deployGlobalCommands.js'
 import path from 'path'
 
 import type ApplicationCommand from './interfaces/ApplicationCommand.js'
@@ -14,38 +13,61 @@ import type Event from './interfaces/Event.js'
 import { fileURLToPath } from 'node:url'
 import DiscordButton from './interfaces/DiscordButton.js'
 import { Player } from 'discord-player'
+import deployGlobalCommands from './deployGlobalCommands.js'
+import { DisTube, DisTubeVoice } from 'distube'
+import { SpotifyPlugin } from '@distube/spotify'
+import { SoundCloudPlugin } from '@distube/soundcloud'
+import { YtDlpPlugin } from '@distube/yt-dlp'
+import "discord-player/smoothVolume"
 
 (async () => {
     const __dirname: string = path.dirname(fileURLToPath(import.meta.url))
 
     await deployGlobalCommands()
 
+    global.client = new Client({
+        intents: [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.DirectMessages,
+            GatewayIntentBits.MessageContent,
+            GatewayIntentBits.GuildVoiceStates,
+        ],
+        partials: [
+            Partials.User,
+            Partials.Channel,
+            Partials.GuildMember,
+            Partials.Message,
+            Partials.Reaction,
+            Partials.GuildScheduledEvent,
+            Partials.ThreadMember
+        ],
+    })
 
-    global.client = Object.assign(
-        new Client({
-            intents: [
-                GatewayIntentBits.Guilds,
-                GatewayIntentBits.GuildMessages,
-                GatewayIntentBits.DirectMessages,
-                GatewayIntentBits.MessageContent,
-                GatewayIntentBits.GuildVoiceStates
-            ],
-            partials: [Partials.Channel],
-        }),
-        {
-            commands: new Collection<string, ApplicationCommand>(),
-            messageCommands: new Collection<string, MessageCommand>(),
-            buttons: new Collection<string, DiscordButton>(),
-            players: new Collection<string, Player>()
-        }
-    )
+    client.commands = new Collection<string, ApplicationCommand>()
+    client.messageCommands = new Collection<string, MessageCommand>()
+    client.buttons = new Collection<string, DiscordButton>()
 
-    client.players.set("player", new Player(client, {
+    client.disTube = new DisTube(client, {
+        leaveOnStop: false,
+        emitNewSongOnly: true,
+        emitAddSongWhenCreatingQueue: false,
+        emitAddListWhenCreatingQueue: false,
+        plugins: [
+            new SpotifyPlugin({
+                emitEventsAfterFetching: true
+            }),
+            new SoundCloudPlugin(),
+            new YtDlpPlugin()
+        ]
+    })
+
+    client.player = new Player(client, {
         ytdlOptions: {
             quality: "highestaudio",
             highWaterMark: 1 << 25
         }
-    }))
+    })
 
     const SlashCommandsDirs: Dirent[] = readdirSync(path.join(__dirname, "./commands/slashCommands"), { withFileTypes: true }).filter(dir => dir.isDirectory()) as Dirent[]
     for (const Category of SlashCommandsDirs) {
