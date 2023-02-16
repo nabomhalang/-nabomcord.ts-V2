@@ -1,6 +1,6 @@
 
 
-import { ActionRowBuilder, ButtonStyle, ButtonBuilder, BaseInteraction, MessageComponentInteraction, ChatInputCommandInteraction, ReactionCollectorOptions, EmbedBuilder, Embed, } from "discord.js"
+import { ActionRowBuilder, ButtonStyle, ButtonBuilder, BaseInteraction, Embed, } from "discord.js"
 import { readdirSync, readFileSync } from "fs"
 import path from "path"
 import { fileURLToPath } from "url"

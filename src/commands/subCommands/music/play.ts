@@ -1,8 +1,10 @@
 
 
 import { QueryType } from 'discord-player';
-import { ChatInputCommandInteraction, EmbedBuilder } from 'discord.js'
+import { ActionRowBuilder, ChatInputCommandInteraction, EmbedBuilder, StringSelectMenuBuilder } from 'discord.js'
+import musicSelect from '../../../button/musicSelect.js';
 import SubCommand from '../../../interfaces/SubCommand.js';
+
 
 export default new SubCommand({
     async execute(interactive: ChatInputCommandInteraction) {
@@ -21,6 +23,7 @@ export default new SubCommand({
 
         const url = interactive.options.getString("url")
 
+        const selectMenuPlay = StringSelectMenuBuilder.from(musicSelect.data.components[0])
         const UrlRegex: RegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&=]*)/img
         const checkURL: boolean = UrlRegex.test(url)
 
@@ -42,29 +45,38 @@ export default new SubCommand({
             return void await interactive.reply({ content: "You are not in a Voice channel", ephemeral: true })
         }
 
-        await interactive.deferReply()
-
         try {
             const tracks = await client.player?.search(url, {
                 requestedBy: interactive.user,
                 searchEngine: QueryType.AUTO
             })
 
-            if (!tracks) return void await interactive.editReply({ content: `❌ | Track **${url}** not found!` })
+            if (!tracks) return void await interactive.reply({ content: `❌ | Track **${url}** not found!`, ephemeral: true })
 
-            if (!checkURL) {
-                const track = tracks.tracks[0]
-                queue.addTrack(track)
+            if (!checkURL) { // search
+                const select = new EmbedBuilder()
+                    .setColor("Random")
+                    .setTitle(`🔍 | Searching **${url}**`)
+                    .setTimestamp()
+                    .setAuthor({ name: `Requested by ${interactive.user.tag}`, iconURL: `${interactive.user.displayAvatarURL()}` })
+                    .setFooter({ text: `Made by 나봄하랑#7597` })
 
-                embed
-                    .setTitle(`⏱️ | Loading playlist **${track.title}**`)
-                    .setDescription(`**[${track.title}](${track.url})** has been added to the Queue`)
-                    .setThumbnail(track.thumbnail)
-                    .setFooter({ text: `Duration: ${track.duration}` })
+                tracks.tracks.forEach((track, idx) => {
+                    select.addFields({ name: "** **", value: `${idx + 1}. **[${track.title}](${track.url})**` })
+                    selectMenuPlay.addOptions([
+                        {
+                            label: `${idx + 1}`,
+                            description: `${track.title}`,
+                            value: `${tracks.tracks[idx].url}`,
+                        }
+                    ])
+                })
+
+                const embedSelectMenu = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenuPlay)
+
+                await interactive.reply({ embeds: [select], components: [embedSelectMenu.toJSON()], ephemeral: true })
             }
             else if (tracks.tracks.length > 1) { // playlist
-                console.log("loads playlist")
-
                 const playlist = tracks.playlist
                 queue.addTracks(tracks.tracks)
 
@@ -74,8 +86,6 @@ export default new SubCommand({
                     .setImage(`${playlist.thumbnail}`)
 
             } else { // single music
-                console.log("single music")
-
                 const track = tracks.tracks[0]
                 queue.addTrack(track)
 
@@ -89,10 +99,11 @@ export default new SubCommand({
                     .setImage(`${track.thumbnail}`)
             }
 
-            console.log(queue.tracks)
-
             if (!queue.playing) await queue.play();
-            return void await interactive.editReply({ embeds: [embed] })
+
+            await interactive.deferReply()
+
+            if (checkURL) return void await interactive.editReply({ embeds: [embed] })
         } catch {
             return void await interactive.editReply({ content: "I can't search because it is not YouTube, Soundcloud, Spotify." })
         }

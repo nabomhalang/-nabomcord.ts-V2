@@ -1,27 +1,27 @@
 
 
-import { ActionRowBuilder, ButtonBuilder } from "discord.js"
+import { ActionRowBuilder } from "discord.js"
 
 /**
  * Button
  */
 export default class DiscordButton {
-    data: ActionRowBuilder<ButtonBuilder>
+    data: ActionRowBuilder<any>
     name: string
-    execute?: (...args: any) => Promise<void> | void
+    execute?: (...args: any) => Promise<void>
 
     /**
      * 
      * @param {{
-     *      data: ActionRowBuilder<ButtonBuilder>
+     *      data: ActionRowBuilder<any>
      *      name: string
-     *      execute: (...args: any) => Promise<void> | void
+     *      execute: (...args: any) => Promise<void>
      * }} options 
      */
     constructor(options: {
-        data: ActionRowBuilder<ButtonBuilder>
+        data: ActionRowBuilder<any>
         name: string
-        execute?: (...args: any) => Promise<void> | void
+        execute?: (...args: any) => Promise<void>
     }) {
         this.data = options.data
         this.name = options.name
