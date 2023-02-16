@@ -17,17 +17,19 @@ export default new ApplicationCommand({
             new SlashCommandSubcommandBuilder()
                 .setName("info")
                 .setDescription("It prints out music commands.")
+        )
+        .addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("quit")
+                .setDescription("Stops the bot and clears the queue")
+        )
+        .addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("queue")
+                .setDescription("displays the current song queue")
+                .addNumberOption((option) => option.setName("page").setDescription("Page number of the queue").setMinValue(1)),
         ),
-    // .addSubcommand(
-    //     new SlashCommandSubcommandBuilder()
-    //         .setName("leave")
-    //         .setDescription("Leave the voice channel")
-    // )
-    // .addSubcommand(
-    //     new SlashCommandSubcommandBuilder()
-    //         .setName("join")
-    //         .setDescription("Join the voice channel")
-    // ),
+
 
     hasSubCommands: true
 })

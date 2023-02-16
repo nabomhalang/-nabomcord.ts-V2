@@ -10,11 +10,10 @@ export default new SubCommand({
     async execute(interactive: ChatInputCommandInteraction) {
         if (!interactive.inCachedGuild()) return;
 
-        if (!interactive.member.voice.channel) return void interactive.reply({ content: "You are not in a Voice channel", ephemeral: true })
-
         if (interactive.guild.members.me.voice.channelId && interactive.member.voice.channelId !== interactive.guild.members.me.voice.channelId)
-            return void await interactive.reply({ content: "You are not in a Voice channel", ephemeral: true });
+            return void await interactive.followUp({ content: "You are not in a Voice channel", ephemeral: true });
 
+        await interactive.deferReply()
         const embed = new EmbedBuilder()
             .setColor("Random")
             .setTimestamp()
@@ -42,7 +41,7 @@ export default new SubCommand({
             if (!queue.connection) await queue.connect(interactive.member.voice.channel);
         } catch {
             client.player?.deleteQueue(interactive.guildId)
-            return void await interactive.reply({ content: "You are not in a Voice channel", ephemeral: true })
+            return void await interactive.followUp({ content: "You are not in a Voice channel", ephemeral: true })
         }
 
         try {
@@ -51,7 +50,7 @@ export default new SubCommand({
                 searchEngine: QueryType.AUTO
             })
 
-            if (!tracks) return void await interactive.reply({ content: `❌ | Track **${url}** not found!`, ephemeral: true })
+            if (!tracks) return void await interactive.followUp({ content: `❌ | Track **${url}** not found!`, ephemeral: true })
 
             if (!checkURL) { // search
                 const select = new EmbedBuilder()
@@ -74,7 +73,7 @@ export default new SubCommand({
 
                 const embedSelectMenu = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenuPlay)
 
-                await interactive.reply({ embeds: [select], components: [embedSelectMenu.toJSON()], ephemeral: true })
+                return void await interactive.followUp({ embeds: [select], components: [embedSelectMenu.toJSON()], ephemeral: true })
             }
             else if (tracks.tracks.length > 1) { // playlist
                 const playlist = tracks.playlist
@@ -101,11 +100,12 @@ export default new SubCommand({
 
             if (!queue.playing) await queue.play();
 
-            await interactive.deferReply()
 
-            if (checkURL) return void await interactive.editReply({ embeds: [embed] })
+            if (checkURL) {
+                await interactive.followUp({ embeds: [embed] })
+            }
         } catch {
-            return void await interactive.editReply({ content: "I can't search because it is not YouTube, Soundcloud, Spotify." })
+            return void await interactive.followUp({ content: "I can't search because it is not YouTube, Soundcloud, Spotify.", ephemeral: true })
         }
     }
 })
