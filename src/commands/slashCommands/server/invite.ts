@@ -21,7 +21,7 @@ export default new ApplicationCommand({
             .setAuthor({ name: `Requested by ${interactive.user.tag}`, iconURL: `${interactive.user.displayAvatarURL()}` })
             .setFooter({ text: `Made by 나봄하랑#7597` })
 
-        await interactive.reply({ embeds: [embed], components: [link.data] })
+        await interactive.reply({ embeds: [embed], components: [link.data], ephemeral: true })
 
     }
 })

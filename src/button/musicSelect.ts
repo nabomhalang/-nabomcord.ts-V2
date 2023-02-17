@@ -39,7 +39,6 @@ export default new DiscordButton({
         queue.addTrack(track)
         if (!queue.playing) await queue.play();
 
-        await interactive.deferReply()
-        await interactive.editReply({ embeds: [embed] })
+        await interactive.reply({ embeds: [embed] })
     }
 })

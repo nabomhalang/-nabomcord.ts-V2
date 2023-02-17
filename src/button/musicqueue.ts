@@ -72,13 +72,12 @@ export default new DiscordButton({
                     (currentSong ? `\`[${currentSong.duration}]\` ${currentSong.title} - <@${currentSong.requestedBy.id}>` : "None") +
                     `\n\n**Queue**\n${queueString}`
             }
-            embed.footer.text = `Page ${index} of ${totalPages + 1}`
 
             return embed
         }
 
         if (interactive.customId === "track_previous") {
-            await interactive.deferUpdate()
+            await interactive.deferUpdate({ fetchReply: true })
 
             var index = 0
             const embed = EditEmbed(index)
@@ -91,7 +90,7 @@ export default new DiscordButton({
             this.data.components[3].setDisabled(false)
         }
         if (interactive.customId === "arrow_backward") {
-            await interactive.deferUpdate()
+            await interactive.deferUpdate({ fetchReply: true })
 
             var index = (parseInt(interactive.message.embeds[0].data.fields[0].name.split('/')[0]) - 1) - 1
             const embed = EditEmbed(index)
@@ -104,8 +103,7 @@ export default new DiscordButton({
             this.data.components[3].setDisabled(false)
         }
         if (interactive.customId === "arrow_forward") {
-
-            await interactive.deferUpdate()
+            await interactive.deferUpdate({ fetchReply: true })
 
             var index = (parseInt(interactive.message.embeds[0].data.fields[0].name.split('/')[0]) - 1) + 1
 
@@ -119,7 +117,7 @@ export default new DiscordButton({
             this.data.components[3].setDisabled(false)
         }
         if (interactive.customId === "track_next") {
-            await interactive.deferUpdate()
+            await interactive.deferUpdate({ fetchReply: true })
 
             var index = totalPages - 1
 
@@ -133,7 +131,7 @@ export default new DiscordButton({
             this.data.components[3].setDisabled(false)
         }
         if (interactive.customId === "Cancel") {
-            await interactive.deferUpdate()
+            await interactive.deferUpdate({ fetchReply: true })
 
             await interactive.editReply({ components: [] })
         }

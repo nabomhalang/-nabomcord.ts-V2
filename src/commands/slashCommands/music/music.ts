@@ -30,6 +30,5 @@ export default new ApplicationCommand({
                 .addNumberOption((option) => option.setName("page").setDescription("Page number of the queue").setMinValue(1)),
         ),
 
-
     hasSubCommands: true
 })

@@ -26,7 +26,8 @@ export default new Event({
         } catch (err) {
             console.error(err as Error)
 
-            await interactive.reply({
+            await interactive.deferReply()
+            await interactive.followUp({
                 content: "There was an error while executing this command!",
                 ephemeral: true
             })
