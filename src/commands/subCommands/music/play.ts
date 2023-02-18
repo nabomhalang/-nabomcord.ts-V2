@@ -26,7 +26,7 @@ export default new SubCommand({
         const UrlRegex: RegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&=]*)/img
         const checkURL: boolean = UrlRegex.test(url)
 
-        const queue = client.player?.createQueue(interactive.guild, {
+        const queue = client.player?.createQueue(interactive.guildId, {
             metadata: {
                 ytdlOptions: {
                     filter: 'audioonly',
@@ -61,7 +61,7 @@ export default new SubCommand({
                 select.addFields({ name: "** **", value: `${idx + 1}. **[${track.title}](${track.url})**` })
                 selectMenuPlay.addOptions([
                     {
-                        label: `${track.title.length > 100 ? `${track.title.slice(90)}...` : track.title}`,
+                        label: `${idx + 1}. ${track.title.length > 100 ? `${track.title.slice(90)}...` : track.title}`,
                         value: `${tracks.tracks[idx].url}`,
                     }
                 ])
@@ -97,9 +97,7 @@ export default new SubCommand({
 
         if (!queue.playing) await queue.play()
 
-        if (checkURL) {
-            await interactive.deferReply()
-            await interactive.followUp({ embeds: [embed] })
-        }
+        await interactive.deferReply()
+        return void await interactive.followUp({ embeds: [embed] })
     }
 })

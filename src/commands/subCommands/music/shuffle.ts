@@ -11,8 +11,8 @@ export default new SubCommand({
         const queue = client.player.getQueue(interactive.guildId)
 
         if (!queue) return void await interactive.editReply("There are no songs in the queue")
-        queue.destroy()
+        queue.shuffle()
 
-        return void await interactive.editReply("👋 | Clear the Music queue and leave voice channel ")
+        return void await interactive.editReply("Shuffle the music queue!!")
     }
 })

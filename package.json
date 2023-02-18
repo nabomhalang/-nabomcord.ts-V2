@@ -1,6 +1,6 @@
 {
   "name": "nabom-discord",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "description": "nabom discord bot with typescript",
   "exports": "./index.js",
   "type": "module",

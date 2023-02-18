@@ -7,18 +7,25 @@ import SubCommand from '../../../interfaces/SubCommand.js';
 export default new SubCommand({
     async execute(interactive: ChatInputCommandInteraction): Promise<void> {
 
-        await interactive.deferReply()
-
         const queue = client.player.getQueue(interactive.guildId)
+
+        try {
+            // console.log(queue.current)
+            // console.log(queue.tracks)
+        } catch { }
+
         if (!queue || !queue.playing) {
+            await interactive.deferReply({ ephemeral: true })
             return void await interactive.editReply("There are no songs in the queue")
         }
 
         const totalPages = Math.ceil(queue.tracks.length / 10) || 1
         const page = (interactive.options.getNumber("page") || 1) - 1
 
-        if (page > totalPages)
+        if (page > totalPages) {
+            await interactive.deferReply({ ephemeral: true })
             return void await interactive.editReply(`Invalid Page. There are only a total of ${totalPages} pages of songs`)
+        }
 
         const queueString = queue.tracks.slice(page * 10, page * 10 + 10).map((song, i) => {
             return `**${page * 10 + i + 1}.** \`[${song.duration}]\` ${song.title} - <@${song.requestedBy.id}>`
@@ -37,6 +44,7 @@ export default new SubCommand({
             .setAuthor({ name: `Requested by ${interactive.user.tag}`, iconURL: `${interactive.user.displayAvatarURL()}` })
             .setFooter({ text: `Made by 나봄하랑#7597` })
 
+        await interactive.deferReply({ ephemeral: true })
         await interactive.editReply({ embeds: [embed], components: [musicqueue.data] })
     }
 })

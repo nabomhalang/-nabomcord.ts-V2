@@ -37,6 +37,6 @@ export default new SubCommand({
             .setAuthor({ name: `Requested by ${interactive.user.tag}`, iconURL: `${interactive.user.displayAvatarURL()}` })
             .setFooter({ text: `Made by 나봄하랑#7597` })
 
-        await interactive.reply({ embeds: [embed], components: [musicinfo.data] })
+        return void await interactive.reply({ embeds: [embed], components: [musicinfo.data] })
     }
 })
